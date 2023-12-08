@@ -1,0 +1,123 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font: bold 14px Arial, sans-serif;
+}
+
+html {
+    height: 100%;
+    background: white;
+    background: radial-gradient(circle, #7cb5cb 20%, rgb(61, 106, 231));
+    background-size: cover;
+}
+
+#hesap-makinesi {
+    width: 325px;
+    height: auto;
+
+    margin: 10px auto 100px;
+    padding: 20px 20px 9px;
+
+    background: #2b2f31;
+    background: linear-gradient(#2b2f31, #8bcce8);
+    border-radius: 3px;
+    box-shadow: 0px 4px #2b2f31, 0px 10px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+.ust span.temizle {
+    float: left;
+}
+
+.ust .ekran {
+    height: 40px;
+    width: 212px;
+    
+    float: right;
+    
+    padding: 0 10px;
+    
+    background: #2b2f31;
+    border-radius: 3px;
+    box-shadow: inset 0px 4px rgba(14, 14, 14, 0.2);
+
+    font-size: 17px;
+    line-height: 40px;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+    text-align: right;
+    letter-spacing: 1px;
+}
+ /* Clear floats */
+ .tuslar, .ust {overflow: hidden;}
+
+ .tuslar span, .ust span.temizle {
+    float: left;
+    position: relative;
+    top: 0;           
+    cursor: pointer;           
+    width: 66px;
+    height: 36px;            
+    background: white;
+    border-radius: 3px;
+    box-shadow: 0px 4px rgba(0, 0, 0, 0.2);           
+    margin: 0 7px 11px 0;           
+    color: #888;
+    line-height: 36px;
+    text-align: center;                       
+    user-select: none;        
+    transition: all 0.2s ease;
+}
+
+.tuslar span.operator {
+    background: #f0ffff;
+    margin-right: 0;
+}
+.tuslar span.esittir {
+    background: #8bcce8;
+    box-shadow: 0px 4px rgba(0, 0, 0, 0.2);  
+    color: #888e5f;
+}
+
+.ust span.temizle {
+    background: #636360;
+    box-shadow: 0px 4px rgba(0, 0, 0, 0.2);  
+    color: white;
+}
+.tuslar span:hover {
+    background: #8bcce8;
+    box-shadow: 0px 4px #77bbdb;
+    color: white;
+}
+
+.tuslar span.esittir:hover {
+    background: #b8a750;
+    box-shadow: 0px 4px #7a6c33;
+    color: #ffffff;
+}
+.ust span.temizle:hover {
+    background: #88a03e;
+    box-shadow: 0px 4px #717a33;
+    color: white;
+}
+.tuslar span:active {
+    box-shadow: 0px 0px #4390b4;
+    top: 4px;
+}
+.tuslar span.esittir:active {
+    box-shadow: 0px 0px #717a33;
+    top: 4px;
+}
+.ust span.temizle:active {
+    top: 4px;
+    box-shadow: 0px 0px #717a33;
+}
+.tanitim {
+    text-align: center;
+}
+.tanitim p{
+    font-size: 20px;
+    text-decoration: none;
+    padding: 20px 0;
+}

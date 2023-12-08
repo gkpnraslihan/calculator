@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hesap Makinesi</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="tanitim">
+        <p> Hesap Makinesi </p>
+    </div>
+
+    <div id="hesap-makinesi">
+        <div class="ust">
+            <span class="temizle" onclick="clearScreen()">C</span>
+            <div class="ekran" id="ekran"></div>
+        </div>
+
+        <div class="tuslar">
+            <span onclick="appendToScreen('7')">7</span>
+            <span onclick="appendToScreen('8')">8</span>
+            <span onclick="appendToScreen('9')">9</span>
+            <span class="operator" onclick="appendToScreen('+')">+</span>
+            <span onclick="appendToScreen('4')">4</span>
+            <span onclick="appendToScreen('5')">5</span>
+            <span onclick="appendToScreen('6')">6</span>
+            <span class="operator" onclick="appendToScreen('-')">-</span>
+            <span onclick="appendToScreen('1')">1</span>
+            <span onclick="appendToScreen('2')">2</span>
+            <span onclick="appendToScreen('3')">3</span>
+            <span class="operator" onclick="appendToScreen('/')">/</span>
+            <span onclick="appendToScreen('0')">0</span>
+            <span onclick="appendToScreen('.')">.</span>
+            <span class="esittir" onclick="calculate()">=</span>
+            <span class="operator" onclick="appendToScreen('*')">*</span>
+        </div>
+    </div>
+
+    <script>
+        var ekran = document.getElementById('ekran');
+        var sonuc = null;
+        var yeniIslem = false;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            ekran.innerHTML = '0';
+        });
+
+        function appendToScreen(value) {
+            var lastChar = ekran.innerHTML.slice(-1);
+
+            if (yeniIslem && !isOperator(value)) {
+                clearScreen();
+                ekran.innerHTML = value;
+                sonuc = null; // Yeni bir işlem başladığında sonucu sıfırla
+                yeniIslem = false;
+            } else if (value === '.' && (!lastChar || !isOperator(lastChar))) {
+                if (!ekran.innerHTML.includes('.')) {
+                    ekran.innerHTML += value;
+                }
+            } else if (ekran.innerHTML === '0' && !isOperator(value)) {
+                ekran.innerHTML = value;
+            } else if (!lastChar || !isOperator(lastChar)) {
+                ekran.innerHTML += value;
+            } else if (isOperator(value) && isOperator(lastChar)) {
+                ekran.innerHTML = ekran.innerHTML.slice(0, -1) + value;
+            } else {
+                ekran.innerHTML += value;
+                ekran.innerHTML = ekran.innerHTML.replace(/x/g, '*').replace(/÷/g, '/');
+            }
+        }
+
+
+        function isOperator(char) {
+            var operators = ['+', '-', 'x', '÷'];
+            return operators.includes(char);
+        }
+
+        function clearScreen() {
+            ekran.innerHTML = '0';
+            sonuc = null;
+            yeniIslem = false;
+        }
+
+        function calculate() {
+            try {
+                if (sonuc === null) {
+                    sonuc = eval(ekran.innerHTML);
+                } else {
+                    sonuc += eval(ekran.innerHTML);
+                }
+                ekran.innerHTML = sonuc;
+                yeniIslem = true;
+            } catch (error) {
+                ekran.innerHTML = 'Hata';
+            }
+        }
+    </script>
+</body>
+
+</html>
