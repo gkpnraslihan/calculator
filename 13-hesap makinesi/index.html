@@ -43,35 +43,49 @@
         var ekran = document.getElementById('ekran');
         var sonuc = null;
         var yeniIslem = false;
+        var lastNumber = null;
+        var firstNumber = null;
+        var combinedValue = null;
+        var sonIslem = null;
+        var sonParametre = null;
 
         document.addEventListener('DOMContentLoaded', function () {
-            ekran.innerHTML = '0';
+            ekran.textContent = '0';
         });
 
         function appendToScreen(value) {
-            var lastChar = ekran.innerHTML.slice(-1);
+            sonuc = null;
+            var lastChar = ekran.textContent.slice(-1);
+            const operatorIndex = value.search(/[+\-*\/]/);
+            if (operatorIndex !== -1) {
+                sonIslem = value;
+            }
+
 
             if (yeniIslem && !isOperator(value)) {
                 clearScreen();
-                ekran.innerHTML = value;
-                sonuc = null; // Yeni bir işlem başladığında sonucu sıfırla
+                ekran.textContent = value;
+                sonuc = null;
                 yeniIslem = false;
             } else if (value === '.' && (!lastChar || !isOperator(lastChar))) {
-                if (!ekran.innerHTML.includes('.')) {
-                    ekran.innerHTML += value;
+                if (!ekran.textContent.includes('.')) {
+                    ekran.textContent += value;
                 }
-            } else if (ekran.innerHTML === '0' && !isOperator(value)) {
-                ekran.innerHTML = value;
+            } else if (!lastChar || !isOperator(lastChar) || lastChar === '0') {
+                if (lastChar === '0' && (value === '/' || value === '*')) {
+                    ekran.textContent += value;
+                } else {
+                    ekran.textContent += value;
+                }
             } else if (!lastChar || !isOperator(lastChar)) {
-                ekran.innerHTML += value;
+                ekran.textContent += value;
             } else if (isOperator(value) && isOperator(lastChar)) {
-                ekran.innerHTML = ekran.innerHTML.slice(0, -1) + value;
+                ekran.textContent = ekran.textContent.slice(0, -1) + value;
             } else {
-                ekran.innerHTML += value;
-                ekran.innerHTML = ekran.innerHTML.replace(/x/g, '*').replace(/÷/g, '/');
+                ekran.textContent += value;
+                ekran.textContent = ekran.textContent.replace(/x/g, '*').replace(/÷/g, '/');
             }
         }
-
 
         function isOperator(char) {
             var operators = ['+', '-', 'x', '÷'];
@@ -79,24 +93,67 @@
         }
 
         function clearScreen() {
-            ekran.innerHTML = '0';
+            ekran.textContent = '0';
             sonuc = null;
             yeniIslem = false;
+            lastNumber = null;
+            firstNumber = null;
+            sonIslem = null;
+            sonParametre = null;
         }
 
         function calculate() {
             try {
-                if (sonuc === null) {
-                    sonuc = eval(ekran.innerHTML);
-                } else {
-                    sonuc += eval(ekran.innerHTML);
+                var ekranDegeri = ekran.textContent;
+                const operatorIndex = ekranDegeri.search(/[+\-*\/]/);
+                const operator = ekranDegeri.charAt(operatorIndex);
+                console.log(operatorIndex);
+                if (sonuc !== null) {
+                    sonuc = sonuc + sonIslem + sonParametre;
+                    sonuc = eval(sonuc);
+                    ekran.textContent = sonuc;
+                    return;
                 }
-                ekran.innerHTML = sonuc;
+                if (operator !== "") {
+                    firstNumber = ekranDegeri.substring(0, operatorIndex);
+                    lastOperator = ekranDegeri.charAt(operatorIndex);
+                }
+                if (operatorIndex !== -1) {
+                    lastNumber = ekranDegeri.substring(operatorIndex + 1);
+                    sonParametre = lastNumber;
+                    combinedValue = operator + lastNumber;
+                }
+                if (sonParametre === "" || operatorIndex === -1) {
+                    if (operator !== "") {
+
+                        sonuc = firstNumber
+                        sonuc = eval(ekranDegeri + firstNumber);
+                        ekran.textContent = sonuc;
+                        sonuc = null;
+                        return;
+                    } else {
+                        sonuc = eval(ekranDegeri + lastOperator + firstNumber);
+                        ekran.textContent = sonuc;
+                        sonuc = null;
+                        return;
+                    }
+
+                }
+                if (sonuc === null) {
+                    sonuc = eval(ekran.textContent);
+                } else {
+                    sonuc = eval(sonuc + combinedValue);
+                }
+                console.log(combinedValue);
+                ekran.textContent = sonuc;
                 yeniIslem = true;
+
             } catch (error) {
-                ekran.innerHTML = 'Hata';
+                console.log(error);
+                ekran.textContent = 'Hata';
             }
         }
+
     </script>
 </body>
 
